@@ -1,24 +1,25 @@
-import { db } from '@/database';
-import { submissions } from '@/database/schema';
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
+import { db } from "@/database";
+import { submission } from "@/database/schema";   // make sure it exports the table
+import crypto from "crypto";
 
-export async function POST(request: Request) {
-  try {
-    const body = await request.json();
-    
-    await db.insert(submissions).values({
-      traineeId: body.traineeId,
-      videoUrl: body.videoUrl,
-      status: 'pending',
-      // fileName and fileSize removed as they are not part of the schema
-    });
+export async function POST(req: Request) {
+  const { traineeId, videoUrl, fileName, fileSize } = await req.json();
 
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('Submission creation failed:', error);
+  if (!traineeId || !videoUrl) {
     return NextResponse.json(
-      { error: 'Failed to create submission' },
-      { status: 500 }
+      { error: "traineeId and videoUrl are required" },
+      { status: 400 },
     );
   }
+  
+  await db.insert(submission).values({
+    id: crypto.randomUUID(),
+    traineeId,
+    videoUrl,
+    status: "pending", 
+  });
+
+  /* Return 201 Created so the client knows it worked. */
+  return NextResponse.json({ success: true }, { status: 201 });
 }

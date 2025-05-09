@@ -3,13 +3,39 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+
+const demoClasses = [
+  {
+    id: "squad",
+    title: "Squad Training",
+    description: "Build lower body strength with our intensive squat program",
+    photo: "/demo/squat.jpg",
+    price: 49.99,
+    duration: "1 hr"
+  },
+  {
+    id: "dumbbell", 
+    title: "Dumbbell Press",
+    description: "Master proper form for maximum upper body gains",
+    photo: "/demo/dumbbell.jpg",
+    price: 44.99,
+    duration: "1 hr"
+  },
+  {
+    id: "rowing",
+    title: "Rowing Fitness", 
+    description: "Make your back stronger with rowing techniques",
+    photo: "/demo/rowing.jpg",
+    price: 34.99,
+    duration: "1 hr"
+  }
+];
 
 export default function Home() {
-  // Create a ref for the CTA section
   const ctaSectionRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   
-  // Function to scroll to the CTA section
   const scrollToCta = () => {
     ctaSectionRef.current?.scrollIntoView({ 
       behavior: 'smooth',
@@ -17,21 +43,18 @@ export default function Home() {
     });
   };
   
-  // Function to handle sign in with role
   const handleSignIn = (role: 'trainee' | 'instructor') => {
-    // Save the role in localStorage or sessionStorage
     sessionStorage.setItem('userRole', role);
-    // Redirect to the sign-in page
     router.push(`/signup?role=${role}`);
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
+      {/* Hero Section (unchanged) */}
       <section className="relative h-[70vh]">
         <div className="absolute inset-0">
           <Image
-            src="/hero-bg.jpg" // Replace with your fitness hero image
+            src="/hero-bg.jpg"
             alt="Fitness Class"
             fill
             className="object-cover"
@@ -56,29 +79,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Classes Section */}
+      {/* Featured Classes Section - Updated with your demo classes */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-center mb-12">Popular Classes</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {[1, 2, 3].map((item) => (
+          {demoClasses.map((cls) => (
             <div
-              key={item}
+              key={cls.id}
               className="bg-white rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-105"
             >
               <div className="relative h-48">
                 <Image
-                  src={`/class-${item}.jpg`} // Replace with actual class images
-                  alt={`Class ${item}`}
+                  src={cls.photo}
+                  alt={cls.title}
                   fill
                   className="object-cover"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">High-Intensity Interval Training</h3>
-                <p className="text-gray-600 mb-4">45-min session with Coach Sarah</p>
+                <h3 className="text-xl font-semibold mb-2">{cls.title}</h3>
+                <p className="text-gray-600 mb-4">{cls.description}</p>
                 <div className="flex justify-between items-center">
-                  <span className="text-blue-600 font-bold">$29.99</span>
-                  <Button variant="outline">Preview</Button>
+                  <span className="text-blue-600 font-bold">${cls.price}</span>
+                  <Button asChild variant="outline">
+                    <Link href={`/classes/${cls.id}`}>View Details</Link>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -86,7 +111,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* CTA Section (unchanged) */}
       <section 
         ref={ctaSectionRef} 
         className="bg-black py-16 scroll-mt-16"

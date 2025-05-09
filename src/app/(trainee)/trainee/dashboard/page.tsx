@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { VideoUploadDialog } from "@/components/video-upload-dialog";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { ProfileSection } from "@/components/profile-section";
 
 export default async function TraineeDashboard() {
@@ -88,8 +89,8 @@ export default async function TraineeDashboard() {
           ) : (
             <div className="col-span-full text-center py-12">
               <p className="text-gray-500">You haven't purchased any classes yet</p>
-              <Button variant="link" className="mt-2">
-                Browse Classes
+              <Button asChild variant="link">
+                <Link href="/classes">Browse Classes</Link>
               </Button>
             </div>
           )}
@@ -103,31 +104,40 @@ export default async function TraineeDashboard() {
           <VideoUploadDialog traineeId={session.user.id} />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {trainingRecordings.map(recording => (
-            <div key={recording.id} className="bg-white rounded-lg p-4 shadow-sm">
-              <div className="flex items-center justify-between">
-                <h3 className="font-medium">{recording.createdAt ? new Date(recording.createdAt).toLocaleDateString() : 'No date available'}</h3>
-                <span className="text-sm text-gray-500">
-                  {recording.status === 'reviewed' ? 'Reviewed' : 'Pending'}
-                </span>
-              </div>
-              
-              <video 
-                src={recording.videoUrl}
-                controls
-                className="mt-2 w-full rounded-lg"
-              />
-
-              {recording.feedback && (
-                <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                  <h4 className="text-sm font-medium mb-2">Instructor Feedback</h4>
-                  <p className="text-sm text-gray-600">{recording.feedback}</p>
-                </div>
-              )}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {trainingRecordings.map(recording => (
+          <Link 
+            key={recording.id} 
+            href={`/trainee/recordings/${recording.id}`}
+            className="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div className="flex items-center justify-between">
+              <h3 className="font-medium">
+                {recording.createdAt ? new Date(recording.createdAt).toLocaleDateString() : 'No date available'}
+              </h3>
+              <span className="text-sm text-gray-500">
+                {recording.status === 'reviewed' ? 'Reviewed' : 'Pending'}
+              </span>
             </div>
-          ))}
-        </div>
+
+            <video 
+              src={recording.videoUrl}
+              controls
+              className="w-full h-64 rounded-lg object-cover mt-2"
+              style={{ aspectRatio: "16/9" }}
+            />
+
+            {recording.feedback && (
+              <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                <h4 className="text-sm font-medium mb-2">Instructor Feedback</h4>
+                <p className="text-sm text-gray-600 line-clamp-2">
+                  {recording.feedback}
+                </p>
+              </div>
+            )}
+          </Link>
+        ))}
+      </div>
       </section>
     </div>
   );
