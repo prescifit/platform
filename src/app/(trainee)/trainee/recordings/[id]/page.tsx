@@ -5,11 +5,13 @@ import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export default async function RecordingDetail({
-  params,
-}: {
-  params: { id: string };
-}) {
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default async function RecordingDetail({ params }: PageProps) {
   const recording = await db.query.submission.findFirst({
     where: eq(submission.id, params.id),
   });
@@ -28,7 +30,7 @@ export default async function RecordingDetail({
       <div className="bg-white rounded-lg p-6 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-medium">
-            Submitted on: {recording.createdAt ? new Date(recording.createdAt).toLocaleDateString() : 'N/A'}
+            Submitted on: {recording.createdAt ? new Date(recording.createdAt).toLocaleDateString() : 'Unknown date'}
           </h2>
           <span
             className={`px-3 py-1 rounded-full text-sm ${
