@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1746763304961,
+      "tag": "0000_robust_arachne",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1746764136841,
+      "tag": "0001_cool_puma",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1746766460116,
+      "tag": "0002_wooden_machine_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1746766943172,
+      "tag": "0003_square_norrin_radd",
+      "breakpoints": true
+    }
+  ]
+}

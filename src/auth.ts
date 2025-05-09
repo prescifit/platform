@@ -12,37 +12,34 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  debug: process.env.NODE_ENV === "development",
   adapter: DrizzleAdapter(db),
   secret: process.env.AUTH_SECRET,
   session: { strategy: "jwt" },
+  trustHost: true,
+  pages: {
+    signIn: "/auth/signin",
+    error: "/auth/error",
+  },
   callbacks: {
-    async jwt({ token }) {
-        if (!token.role) {
-          const user = await db.query.userProfiles.findFirst({
-            where: (u, { eq }) => eq(u.userId, token.sub!),
-          });
-          token.role = user?.role ?? "user";
-        }
-        return token;
-    },
     async session({ session, token }) {
       if (token.sub && session.user) {
         session.user.id = token.sub;
-        
-        // Add custom role to session
-        const user = await db.query.userProfiles.findFirst({
-          where: (users, { eq }) => eq(users.userId, token.sub)
-        });
-        
-        session.user.role = user?.role || "user";
+        session.user.role = token.role as "instructor" | "trainee";
       }
       return session;
     },
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role;
+      }
+      return token;
+    }
   },
   providers: [
     GoogleProvider({
-        clientId: process.env.GOOGLE_CLIENT_ID!,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
 });

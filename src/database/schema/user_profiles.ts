@@ -1,13 +1,13 @@
 import { pgTable, uuid, varchar, numeric, timestamp, pgEnum } from "drizzle-orm/pg-core";
 import { users } from "./auth";
 
-export const roleEnum = pgEnum("role", ["instructor",  "user"]);
+export const roleEnum = pgEnum("role", ["instructor",  "trainee"]);
 
 export const userProfiles = pgTable("user_profiles", {
   id: uuid("id").primaryKey().defaultRandom(),
   userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
 
-  role: roleEnum("role").default("user").notNull(),
+  role: roleEnum("role").default("trainee").notNull(),
 
   heightCm: numeric("height_cm"),
   heightFt: numeric("height_ft"),
