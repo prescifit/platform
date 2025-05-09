@@ -5,13 +5,11 @@ import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default async function RecordingDetail({ params }: PageProps) {
+export default async function RecordingDetail({
+  params,
+}: {
+  params: { id: string };
+}) {
   const recording = await db.query.submission.findFirst({
     where: eq(submission.id, params.id),
   });
