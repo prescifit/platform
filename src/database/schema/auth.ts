@@ -1,19 +1,5 @@
 import { pgTable, text, timestamp, boolean, varchar } from "drizzle-orm/pg-core";
-
-export const users = pgTable("users", {
-					id: text('id').primaryKey(),
-					name: text('name').notNull(),
- email: text('email').notNull().unique(),
- emailVerified: boolean('email_verified').notNull(),
- image: text('image'),
- createdAt: timestamp('created_at').notNull(),
- updatedAt: timestamp('updated_at').notNull(),
- role: varchar("role", { length: 20 }).$type<"instructor" | "trainee">().default("trainee"),
- banned: boolean('banned'),
- banReason: text('ban_reason'),
- banExpires: timestamp('ban_expires'),
- password: text("password"),
-				});
+import { users } from "./users";
 
 export const sessions = pgTable("sessions", {
 					id: text('id').primaryKey(),

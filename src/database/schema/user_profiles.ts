@@ -1,5 +1,5 @@
 import { pgTable, integer, numeric, text } from "drizzle-orm/pg-core";
-import { users } from "./auth";
+import { users } from "./users";
 
 
 export const userProfiles = pgTable("user_profiles", {

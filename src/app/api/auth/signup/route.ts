@@ -25,18 +25,18 @@ export async function POST(request: Request) {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
     
-    // Create new user
-    await db.insert(users).values({
-      id: nanoid(),
-      name,
-      email,
-      password: hashedPassword,
-      role: role as "trainee" | "instructor",
-      emailVerified: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      image: "",
-    });
+  // Create new user
+  await db.insert(users).values({
+    id: nanoid(),
+    name,
+    email,
+    password: hashedPassword,
+    role: role as "trainee" | "instructor",
+    emailVerified: new Date(),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    image: "",
+  });
 
     return NextResponse.json({ success: true });
     
