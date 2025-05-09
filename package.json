@@ -14,6 +14,7 @@
     "@auth/drizzle-adapter": "^1.9.0",
     "@cloudinary/react": "^1.14.1",
     "@cloudinary/url-builder": "0.2.0-beta",
+    "@hookform/resolvers": "^5.0.1",
     "@radix-ui/react-dialog": "^1.1.13",
     "@radix-ui/react-label": "^2.1.6",
     "@radix-ui/react-progress": "^1.1.6",
@@ -38,7 +39,8 @@
     "react-dropzone": "^14.3.8",
     "react-hook-form": "^7.56.3",
     "tailwind-merge": "^3.2.0",
-    "ws": "^8.18.2"
+    "ws": "^8.18.2",
+    "zod": "^3.24.4"
   },
   "devDependencies": {
     "@esbuild-kit/core-utils": "^3.3.2",

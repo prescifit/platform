@@ -20,7 +20,7 @@ export async function POST(request: Request) {
 
     // Check for existing user
     const existingUser = await db.query.user.findFirst({
-      where: eq(user.email, email),
+      where: (u, { eq }) => eq(u.email, email.trim().toLowerCase()),
     });
 
     if (existingUser) {

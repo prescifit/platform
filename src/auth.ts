@@ -57,9 +57,9 @@ export const {
         }
         
         const usr = await db.query.user.findFirst({ where: (u, { eq }) => eq(u.email, email) });
-        if (!usr?.password) return null;
+        if (!usr?.hashedPassword) return null;
         
-        const ok = await bcrypt.compare(password, usr.password);
+        const ok = await bcrypt.compare(password, usr.hashedPassword);
         return ok ? { id: usr.id, email: usr.email, role: usr.role ?? undefined } : null;
       },
     }),

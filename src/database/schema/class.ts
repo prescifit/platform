@@ -7,7 +7,7 @@ export const classTable = pgTable("class", {
   description: text("description"),
   instructorId: text("instructor_id")
     .references(() => user.id), // References the user table
-  videoUrl: text("video_url").notNull(),
+  videoUrl: text("video_url"),
   duration: numeric("duration_minutes").notNull(), // Class length in minutes
   difficulty: text("difficulty").$type<"beginner" | "intermediate" | "advanced">(),
   price: numeric("price").notNull().default("0.00"),

@@ -1,11 +1,11 @@
 "use client";
-import { useSearchParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState, Suspense } from "react";
 import { signIn as nextAuthSignIn } from "next-auth/react";
 
-export default function SignUp() {
-  const params = useSearchParams();
-  const role = params.get("role") as "trainee" | "instructor";
+function SignUpForm() {
+  const searchParams = useSearchParams();
+  const role = searchParams.get("role") as "trainee" | "instructor";
   const router = useRouter();
 
   const [name, setName]       = useState("");
@@ -14,14 +14,31 @@ export default function SignUp() {
   const [err, setErr]         = useState("");
 
   async function register() {
-    const res = await fetch("/api/auth/signup", {
-      method: "POST",
-      body: JSON.stringify({ name, email, password: pwd, role }),
-      headers: { "Content-Type": "application/json" },
-    });
-    if (!res.ok) { setErr("Failed"); return; }
-    // auto-sign-in
-    await nextAuthSignIn("credentials", { email, password: pwd, callbackUrl: `/${role}/dashboard` });
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        body: JSON.stringify({ name, email, password: pwd, role }),
+        headers: { "Content-Type": "application/json" },
+      });
+      
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Registration failed");
+      }
+
+      await nextAuthSignIn("credentials", { 
+        email, 
+        password: pwd, 
+        redirect: true,
+        callbackUrl: `/${role}/dashboard` 
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        setErr(error.message || "An error occurred during registration");
+      } else {
+        setErr("An error occurred during registration");
+      }
+    }
   }
 
   return (
@@ -32,7 +49,7 @@ export default function SignUp() {
         {/* Name Input */}
         <div>
           <label className="block text-sm font-medium mb-1" htmlFor="name">
-            Full Name
+            User Name
           </label>
           <input
             id="name"
@@ -73,16 +90,16 @@ export default function SignUp() {
             onChange={(e) => setPwd(e.target.value)}
             className="w-full px-3 py-2 border rounded-md"
             placeholder="••••••••"
-            minLength={8}
+            minLength={6}
             required
           />
           <p className="text-xs text-gray-500 mt-1">
-            At least 8 characters
+            At least 6 characters
           </p>
         </div>
 
         {/* Error Message */}
-        {err && <p className="text-red-500 text-sm">{err}</p>}
+        {err && <p className="text-purple-500 text-sm">{err}</p>}
 
         {/* Submit Button */}
         <button
@@ -127,5 +144,14 @@ export default function SignUp() {
         </button>
       </div>
     </div>
+  );
+}
+
+// Main page component with Suspense boundary
+export default function SignUpPage() {
+  return (
+    <Suspense fallback={<div>Loading signup form...</div>}>
+      <SignUpForm />
+    </Suspense>
   );
 }

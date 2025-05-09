@@ -19,7 +19,7 @@ export default function SignInPage() {
   const handleSignIn = async (provider: string) => {
     try {
       await signIn(provider, { 
-        callbackUrl: '/api/auth/redirect', 
+        callbackUrl: '/', 
         redirect: true 
       });
     } catch (error) {
