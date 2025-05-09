@@ -21,7 +21,10 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["@neondatabase/serverless"]
+    "types": [
+      "@neondatabase/serverless",
+      "next"
+    ]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
