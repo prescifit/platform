@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "@/database/db";
-import { userProfiles } from "@/database/schema/user_profiles";
+import { userProfile } from "@/database/schema/user_profile";
 import GoogleProvider from "next-auth/providers/google"; 
 import { eq } from "drizzle-orm";
 import Credentials from "next-auth/providers/credentials";
@@ -56,7 +56,7 @@ export const {
           return null;
         }
         
-        const usr = await db.query.users.findFirst({ where: (u, { eq }) => eq(u.email, email) });
+        const usr = await db.query.user.findFirst({ where: (u, { eq }) => eq(u.email, email) });
         if (!usr?.password) return null;
         
         const ok = await bcrypt.compare(password, usr.password);

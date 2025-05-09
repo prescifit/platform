@@ -1,13 +1,12 @@
 import { pgTable, uuid, text, numeric, timestamp } from "drizzle-orm/pg-core";
-import { users } from "./users";
+import { user } from "./user";
 
-export const classes = pgTable("classes", {
-  id: uuid("id").primaryKey().defaultRandom(),
+export const classTable = pgTable("class", {
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
   title: text("title").notNull(),
   description: text("description"),
-  instructorId: uuid("instructor_id")
-    .notNull()
-    .references(() => users.id), // References the user table
+  instructorId: text("instructor_id")
+    .references(() => user.id), // References the user table
   videoUrl: text("video_url").notNull(),
   duration: numeric("duration_minutes").notNull(), // Class length in minutes
   difficulty: text("difficulty").$type<"beginner" | "intermediate" | "advanced">(),

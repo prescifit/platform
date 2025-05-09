@@ -1,11 +1,12 @@
 "use client";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState, use } from "react";
+import { useState, Suspense } from "react";
 import { signIn as nextAuthSignIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export default function SignUp() {
+// Wrap the component in Suspense
+function SignUpContent() {
   const params = useSearchParams();
   const role = params.get("role") as "trainee" | "instructor";
   const router = useRouter();
@@ -49,10 +50,47 @@ export default function SignUp() {
 
   return (
     <div className="max-w-md mx-auto p-6">
-      {/* ... rest of UI */}
-      <Button onClick={register} disabled={loading}>
-        {loading ? "Creating Account..." : "Sign Up"}
-      </Button>
+      <h1 className="text-xl font-bold mb-4">Create your {role} account</h1>
+      <div className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium mb-1">Full Name</label>
+          <Input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="John Doe"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">Email</label>
+          <Input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="john@example.com"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">Password</label>
+          <Input
+            type="password"
+            value={pwd}
+            onChange={(e) => setPwd(e.target.value)}
+            placeholder="••••••••"
+          />
+        </div>
+        {err && <p className="text-red-500 text-sm">{err}</p>}
+        <Button onClick={register} disabled={loading}>
+          {loading ? "Creating Account..." : "Sign Up"}
+        </Button>
+      </div>
     </div>
+  );
+}
+
+export default function SignUpPage() {
+  return (
+    <Suspense fallback={<div>Loading signup form...</div>}>
+      <SignUpContent />
+    </Suspense>
   );
 }

@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db } from "@/database";
-import { users } from "@/database/schema";
+import { user } from "@/database/schema";
 import { eq } from "drizzle-orm";
 
 export async function GET(request: Request) {
@@ -19,9 +19,9 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Invalid role" }, { status: 400 });
   }
 
-  await db.update(users)
+  await db.update(user)
     .set({ role: role as "instructor" | "trainee" })
-    .where(eq(users.id, session.user.id!));
+    .where(eq(user.id, session.user.id!));
 
   return NextResponse.redirect(`/${role}/dashboard`);
 }
