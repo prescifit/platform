@@ -1,5 +1,5 @@
 import { pgTable, timestamp, numeric, uuid } from "drizzle-orm/pg-core";
-import { users } from "./auth";
+import { users } from "./users";
 import { classes } from "./classes";
 
 export const purchases = pgTable("purchases", {
