@@ -22,7 +22,7 @@ export default function Home() {
     // Save the role in localStorage or sessionStorage
     sessionStorage.setItem('userRole', role);
     // Redirect to the sign-in page
-    router.push('/auth/signin');
+    router.push(`/signup?role=${role}`);
   };
 
   return (

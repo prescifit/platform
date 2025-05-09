@@ -8,9 +8,19 @@ if (!url)
   throw new Error(
     `Connection string to ${process.env.NODE_ENV ? 'Neon' : 'local'} Postgres not found.`
   );
-export default defineConfig({
-  out: './src/database/migrations',
-  schema: './src/database/schema/*',
-  dialect: 'postgresql',
-  dbCredentials: { url },
-});
+// export default defineConfig({
+//   out: './src/database/migrations',
+//   schema: './src/database/schema/*',
+//   dialect: 'postgresql',
+//   dbCredentials: { url },
+// });
+
+import type { Config } from "drizzle-kit";
+export default {
+  schema: "./src/database/schema/*",
+  out: "./drizzle",
+  dialect: "postgresql",
+  dbCredentials: {
+    url
+  }
+} satisfies Config;

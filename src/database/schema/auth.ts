@@ -11,7 +11,8 @@ export const users = pgTable("users", {
  role: varchar("role", { length: 20 }).$type<"instructor" | "trainee">().default("trainee"),
  banned: boolean('banned'),
  banReason: text('ban_reason'),
- banExpires: timestamp('ban_expires')
+ banExpires: timestamp('ban_expires'),
+ password: text("password"),
 				});
 
 export const sessions = pgTable("sessions", {

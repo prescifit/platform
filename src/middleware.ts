@@ -31,5 +31,5 @@ export default auth((req) => {
  * Everything else ("/", marketing pages, images, etc.) stays public.
  */
 export const config = {
-  matcher: ["/instructor/:path*", "/trainee/:path*", "/role-choice"],
+  matcher: ["/instructor/:path*", "/trainee/:path*"],
 };
