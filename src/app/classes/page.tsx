@@ -53,7 +53,7 @@ export default function ClassesPage() {
               <div className="mt-4 flex justify-between items-center">
                 <span className="font-medium">${cls.price}</span>
                 <Button asChild size="sm">
-                  <Link href={`/classes/${cls.id}`}>View Class</Link>
+                  View Class
                 </Button>
               </div>
             </div>
