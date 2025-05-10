@@ -96,7 +96,7 @@ export default async function TraineeDashboard() {
           )}
         </div>
       </section>
-
+      
       {/* Training Recordings */}
       <section className="space-y-4">
         <div className="flex items-center justify-between">
@@ -104,40 +104,40 @@ export default async function TraineeDashboard() {
           <VideoUploadDialog traineeId={session.user.id} />
         </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {trainingRecordings.map(recording => (
-          <Link 
-            key={recording.id} 
-            href={`/trainee/recordings/${recording.id}`}
-            className="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
-          >
-            <div className="flex items-center justify-between">
-              <h3 className="font-medium">
-                {recording.createdAt ? new Date(recording.createdAt).toLocaleDateString() : 'No date available'}
-              </h3>
-              <span className="text-sm text-gray-500">
-                {recording.status === 'reviewed' ? 'Reviewed' : 'Pending'}
-              </span>
-            </div>
-
-            <video 
-              src={recording.videoUrl}
-              controls
-              className="w-full h-64 rounded-lg object-cover mt-2"
-              style={{ aspectRatio: "16/9" }}
-            />
-
-            {recording.feedback && (
-              <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                <h4 className="text-sm font-medium mb-2">Instructor Feedback</h4>
-                <p className="text-sm text-gray-600 line-clamp-2">
-                  {recording.feedback}
-                </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {trainingRecordings.map(recording => (
+            // Removed the Link wrapper, using div instead
+            <div 
+              key={recording.id} 
+              className="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
+            >
+              <div className="flex items-center justify-between">
+                <h3 className="font-medium">
+                  {recording.createdAt ? new Date(recording.createdAt).toLocaleDateString() : 'No date available'}
+                </h3>
+                <span className="text-sm text-gray-500">
+                  {recording.status === 'reviewed' ? 'Reviewed' : 'Pending'}
+                </span>
               </div>
-            )}
-          </Link>
-        ))}
-      </div>
+
+              <video 
+                src={recording.videoUrl}
+                controls
+                className="w-full h-64 rounded-lg object-cover mt-2"
+                style={{ aspectRatio: "16/9" }}
+              />
+
+              {recording.feedback && (
+                <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                  <h4 className="text-sm font-medium mb-2">Instructor Feedback</h4>
+                  <p className="text-sm text-gray-600">
+                    {recording.feedback}
+                  </p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </section>
     </div>
   );
