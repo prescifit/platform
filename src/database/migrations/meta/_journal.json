@@ -5,50 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1746763304961,
-      "tag": "0000_robust_arachne",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1746764136841,
-      "tag": "0001_cool_puma",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1746766460116,
-      "tag": "0002_wooden_machine_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1746766943172,
-      "tag": "0003_square_norrin_radd",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1746788013751,
-      "tag": "0004_pale_sunset_bain",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1746790588147,
-      "tag": "0005_remarkable_peter_parker",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1746794182717,
-      "tag": "0006_adorable_microchip",
+      "when": 1746917387628,
+      "tag": "0000_slippery_mister_fear",
       "breakpoints": true
     }
   ]

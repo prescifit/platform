@@ -2,11 +2,21 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/database';
 import { user } from '@/database/schema';
-import { eq } from 'drizzle-orm';
 import bcrypt from 'bcryptjs';
+import { sql } from 'drizzle-orm';
 
 export async function POST(request: Request) {
   try {
+    // check database connection
+    try {
+      await db.execute(sql`SELECT 1`);
+    } catch (dbError) {
+      console.error('Database connection error:', dbError);
+      return NextResponse.json(
+        { error: 'Database unavailable' },
+        { status: 503 }
+      );
+    }
     // Parse request body
     const { name, email, password, role } = await request.json();
 
@@ -37,9 +47,9 @@ export async function POST(request: Request) {
     const [newUser] = await db.insert(user).values({
       name,
       email,
-      hashedPassword: hashedPassword,
+      hashedPassword,
       role: role as 'trainee' | 'instructor',
-      emailVerified: true, 
+      emailVerified: true
     }).returning();
 
     return NextResponse.json({
